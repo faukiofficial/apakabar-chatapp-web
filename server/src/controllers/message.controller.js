@@ -92,7 +92,9 @@ export const updateMessage = async (req, res) => {
       messageId,
       { text: message, image: imageData, isUpdated: true },
       { new: true, runValidators: true }
-    );
+    )
+      .populate("sender", "name profilePic.url")
+      .populate("receiver", "name profilePic.url");
 
     res.status(200).json({
       success: true,
