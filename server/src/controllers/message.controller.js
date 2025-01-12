@@ -42,21 +42,27 @@ export const getMessages = async (req, res) => {
 
 export const sendMessage = async (req, res) => {
   try {
-    const { receiverId, message, image } = req.body;
+    const { receiverId, message } = req.body;
+
+    console.log(req.file);
 
     let imageData;
-    if (image) {
-      const result = await uploadImage(image, "apakabar/messages");
+    if (req.file) {
+      const imageBuffer = req.file.buffer.toString("base64");
+      const data = `data:image/jpeg;base64,${imageBuffer}`;
+      const result = await uploadImage(data, "apakabar/messages");
 
       imageData = { url: result.secure_url, public_id: result.public_id };
     }
 
-    const newMessage = await Message.create({
+    const result = await Message.create({
       sender: req.user._id,
       receiver: receiverId,
       text: message,
       image: imageData,
     })
+
+    const newMessage = await Message.findById(result._id)
       .populate("sender", "name profilePic.url")
       .populate("receiver", "name profilePic.url");
 
@@ -74,16 +80,20 @@ export const sendMessage = async (req, res) => {
 export const updateMessage = async (req, res) => {
   try {
     const messageId = req.params.id;
-    const { message, image } = req.body;
+    const { message } = req.body;
+
+    const messageToUpdate = await Message.findById(messageId);
 
     let imageData;
 
-    if (image) {
-      if (req.message.image.public_id) {
-        await deleteImage(req.message.image.public_id);
+    if (req.file) {
+      if (messageToUpdate.image.public_id) {
+        await deleteImage(messageToUpdate.image.public_id);
       }
 
-      const result = await uploadImage(image, "apakabar/messages");
+      const image = req.file.buffer.toString("base64");
+      const data = `data:image/jpeg;base64,${image}`;
+      const result = await uploadImage(data, "apakabar/messages");
 
       imageData = { url: result.secure_url, public_id: result.public_id };
     }
