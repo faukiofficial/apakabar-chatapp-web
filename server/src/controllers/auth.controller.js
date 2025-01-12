@@ -1,8 +1,6 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
 import generateToken from "../lib/generateToken.js";
-import { set } from "mongoose";
 import setTokenCookies from "../lib/setTokenCookies.js";
 import clearCookie from "../lib/clearCookie.js";
 
@@ -108,31 +106,19 @@ export const socialLogin = async (req, res) => {
   try {
     const { name, email, picture } = req.body;
 
-    const user = User.findOne({ email });
-
+    let user = await User.findOne({ email });
     if (!user) {
-      const newUser = await User.create({ name, email, profilePic: { url: picture } });
-
-      const { token, refreshToken } = generateToken(newUser._id);
-
-      setTokenCookies(res, token, refreshToken);
-
-      res.status(200).json({
-        success: true,
-        message: "User logged in successfully",
-        user: newUser,
-      });
-    } else {
-      const { token, refreshToken } = generateToken(user._id);
-
-      setTokenCookies(res, token, refreshToken);
-
-      res.status(200).json({
-        success: true,
-        message: "User logged in successfully",
-        user,
-      });
+      user = await User.create({ name, email, profilePic: { url: picture } });
     }
+
+    const { token, refreshToken } = generateToken(user._id);
+    setTokenCookies(res, token, refreshToken);
+
+    res.status(200).json({
+      success: true,
+      message: "User logged in successfully",
+      user,
+    });
   } catch (error) {
     console.log("Error in social login controller:", error);
     res.status(500).json({

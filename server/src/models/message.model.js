@@ -19,6 +19,10 @@ const messageSchema = new mongoose.Schema(
       url: String,
       public_id: String,
     },
+    isUpdated: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

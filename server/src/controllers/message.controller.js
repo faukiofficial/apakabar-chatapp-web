@@ -69,6 +69,39 @@ export const sendMessage = async (req, res) => {
   }
 };
 
+export const updateMessage = async (req, res) => {
+  try {
+    const messageId = req.params.id;
+    const { message, image } = req.body;
+
+    let imageData;
+    if (image) {
+      if (req.message.image.public_id) {
+        await deleteImage(req.message.image.public_id);
+      }
+
+      const result = await uploadImage(image, "apakabar/messages");
+
+      imageData = { url: result.secure_url, public_id: result.public_id };
+    }
+
+    const updatedMessage = await Message.findByIdAndUpdate(
+      messageId,
+      { text: message, image: imageData, isUpdated: true },
+      { new: true, runValidators: true }
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "Message updated successfully",
+      updatedMessage,
+    });
+  } catch (error) {
+    console.log("Error in updateMessage controller:", error);
+    res.status(500).json({ success: false, message: "Failed to update message" });
+  }
+};
+
 export const deleteMessage = async (req, res) => {
   try {
     const messageId = req.params.id;
