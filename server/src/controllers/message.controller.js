@@ -56,7 +56,9 @@ export const sendMessage = async (req, res) => {
       receiver: receiverId,
       text: message,
       image: imageData,
-    });
+    })
+      .populate("sender", "name profilePic.url")
+      .populate("receiver", "name profilePic.url");
 
     res.status(200).json({
       success: true,
@@ -75,6 +77,7 @@ export const updateMessage = async (req, res) => {
     const { message, image } = req.body;
 
     let imageData;
+
     if (image) {
       if (req.message.image.public_id) {
         await deleteImage(req.message.image.public_id);
@@ -98,7 +101,9 @@ export const updateMessage = async (req, res) => {
     });
   } catch (error) {
     console.log("Error in updateMessage controller:", error);
-    res.status(500).json({ success: false, message: "Failed to update message" });
+    res
+      .status(500)
+      .json({ success: false, message: "Failed to update message" });
   }
 };
 

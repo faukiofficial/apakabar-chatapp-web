@@ -23,6 +23,7 @@ export const register = async (req, res) => {
     }
 
     const existingUser = await User.findOne({ email });
+
     if (existingUser) {
       return res.status(400).json({
         success: false,
@@ -67,6 +68,7 @@ export const login = async (req, res) => {
     }
 
     const user = await User.findOne({ email });
+
     if (!user) {
       return res.status(400).json({
         success: false,
@@ -75,6 +77,7 @@ export const login = async (req, res) => {
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
+    
     if (!isMatch) {
       return res.status(400).json({
         success: false,
@@ -107,6 +110,7 @@ export const socialLogin = async (req, res) => {
     const { name, email, picture } = req.body;
 
     let user = await User.findOne({ email });
+
     if (!user) {
       user = await User.create({ name, email, profilePic: { url: picture } });
     }
