@@ -37,7 +37,9 @@ export const getAllUsers = async (req, res) => {
 
 export const getUserInfo = async (req, res) => {
   try {
-    const user = await User.findById(req.user._id).select("-password -profilePic.public_id");
+    const user = await User.findById(req.user._id).select(
+      "-password -profilePic.public_id"
+    );
     res.status(200).json({
       success: true,
       message: "User fetched successfully",
@@ -53,7 +55,9 @@ export const getUserInfo = async (req, res) => {
 
 export const getUserById = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id).select("-password -profilePic.public_id");
+    const user = await User.findById(req.params.id).select(
+      "-password -profilePic.public_id"
+    );
     res.status(200).json({
       success: true,
       message: "User fetched successfully",
@@ -69,6 +73,8 @@ export const updateUser = async (req, res) => {
   try {
     const { name, email } = req.body;
 
+    let profilePic;
+
     if (req.file) {
       if (req.user.profilePic?.public_id) {
         await deleteImage(req.user.profilePic.public_id);
@@ -78,32 +84,21 @@ export const updateUser = async (req, res) => {
       const imageData = `data:image/jpeg;base64,${fileBuffer}`;
       const result = await uploadImage(imageData, "apakabar/profilePic");
 
-      const userData = { name, email, profilePic: { public_id: result.public_id, url: result.secure_url } };
-
-      const user = await User.findByIdAndUpdate(req.user._id, userData, {
-        new: true,
-        runValidators: true,
-      }).select("-password -profilePic.public_id");
-
-      res.status(200).json({
-        success: true,
-        message: "User updated successfully",
-        user,
-      });
-    } else {
-      const userData = { name, email };
-
-      const user = await User.findByIdAndUpdate(req.user._id, userData, {
-        new: true,
-        runValidators: true,
-      }).select("-password -profilePic.public_id");
-
-      res.status(200).json({
-        success: true,
-        message: "User updated successfully",
-        user,
-      });
+      profilePic = { public_id: result.public_id, url: result.secure_url };
     }
+
+    const userData = { name, email, profilePic };
+
+    const user = await User.findByIdAndUpdate(req.user._id, userData, {
+      new: true,
+      runValidators: true,
+    }).select("-password -profilePic.public_id");
+
+    res.status(200).json({
+      success: true,
+      message: "User updated successfully",
+      user,
+    });
   } catch (error) {
     console.log("Error in updateUser controller:", error);
     res.status(500).json({ success: false, message: "Update profile failed" });

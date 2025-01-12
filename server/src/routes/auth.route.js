@@ -9,5 +9,4 @@ router.post("/login", login);
 router.post("/social-login", socialLogin);
 router.post("/logout", checkAuthAndRefreshToken, logout);
 
-
 export default router;

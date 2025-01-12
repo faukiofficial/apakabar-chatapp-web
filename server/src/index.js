@@ -10,7 +10,7 @@ connectDB();
 
 import authRouter from "./routes/auth.route.js";
 import userRouter from "./routes/user.route.js";
-
+import messageRouter from "./routes/message.route.js";
 
 const app = express();
 
@@ -32,6 +32,7 @@ const API_V1 = "/api/v1";
 
 app.use(`${API_V1}/auth`, authRouter);
 app.use(`${API_V1}/user`, userRouter);
+app.use(`${API_V1}/message`, messageRouter);
 
 const port = process.env.PORT || 3000;
 
