@@ -11,6 +11,8 @@ const useAuthStore = create((set) => ({
     
     loginLoading: false,
 
+    logoutLoading: false,
+
     checkAuth: async() => {
         set({ checkAuthLoading: true });
         try {
@@ -64,6 +66,7 @@ const useAuthStore = create((set) => ({
     },
 
     logout: async () => {
+        set({ logoutLoading: true });
         try {
             const response = await axiosInstance.get('/auth/logout');
             toast.success(response.data.message);
