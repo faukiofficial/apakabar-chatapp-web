@@ -1,34 +1,39 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom"
+import useAuthStore from "./store/useAuthStore"
+import { useEffect } from "react"
+import { Loader } from "lucide-react"
+import Register from "./pages/Register"
+import Login from "./pages/Login"
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  const { user, isAuthenticated, checkAuthLoading, checkAuth } = useAuthStore()
+
+  useEffect(() => {
+    checkAuth()
+    console.log("jalan")
+  }, [checkAuth])
+
+  if (checkAuthLoading && user === null) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-slate-800">
+        <Loader className="animate-spin" size={50} color="white" />
+      </div>
+    )
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element=<Navigate to="/auth/login" /> />
+        <Route path="/auth" element=<Navigate to="/auth/login" /> />
+        <Route path="/auth" element={user && isAuthenticated && <Navigate to="/message" />}>
+          <Route path="register" element={<Register />} />
+          <Route path="login" element={<Login />} />
+        </Route>
+        <Route path="/message" element={user && isAuthenticated ? <h1>Dashboard</h1> : <Navigate to="/auth/login" />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
