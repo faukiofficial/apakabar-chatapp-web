@@ -30,7 +30,7 @@ const Login = () => {
     if (validateForm()) {
       login(formData);
     } else {
-      alert("Please fill out all fields.");
+      toast.error("Please fill out all fields");
     }
   };
 

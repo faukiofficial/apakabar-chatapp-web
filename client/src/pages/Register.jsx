@@ -31,7 +31,7 @@ const Register = () => {
     if (validateForm()) {
       register(formData);
     } else {
-      toast.error("Please fill out all fields.");
+      toast.error("Please fill out all fields");
     }
   };
 
