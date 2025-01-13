@@ -13,7 +13,7 @@ function App() {
     checkAuth()
   }, [checkAuth])
 
-  if (checkAuthLoading && user === null) {
+  if (checkAuthLoading && !user) {
     return (
       <div className="flex justify-center items-center h-screen bg-gray-900">
         <Loader className="animate-spin" size={50} color="white" />
@@ -30,7 +30,7 @@ function App() {
           <Route path="register" element={<Register />} />
           <Route path="login" element={<Login />} />
         </Route>
-        <Route path="/message" element={user && isAuthenticated ? <h1>Dashboard</h1> : <Navigate to="/auth/login" />} />
+        <Route path="/message" element={!user && !isAuthenticated && !checkAuthLoading ? <Navigate to="/auth/login" /> : <h1>Dashboard</h1> } />
       </Routes>
     </BrowserRouter>
   )
