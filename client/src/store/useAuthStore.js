@@ -6,11 +6,8 @@ const useAuthStore = create((set) => ({
     user: null,
     isAuthenticated: true,
     checkAuthLoading: false,
-
     registerLoading: false,
-    
     loginLoading: false,
-
     logoutLoading: false,
 
     checkAuth: async() => {

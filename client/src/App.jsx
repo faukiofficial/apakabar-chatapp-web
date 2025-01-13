@@ -11,12 +11,11 @@ function App() {
 
   useEffect(() => {
     checkAuth()
-    console.log("jalan")
   }, [checkAuth])
 
   if (checkAuthLoading && user === null) {
     return (
-      <div className="flex justify-center items-center h-screen bg-slate-800">
+      <div className="flex justify-center items-center h-screen bg-gray-900">
         <Loader className="animate-spin" size={50} color="white" />
       </div>
     )
