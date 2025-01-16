@@ -15,7 +15,7 @@ const Navbar = () => {
       <div className="flex-1">
         <Link to="/" className="flex items-center gap-2 text-xl font-bold">
           <MessageCircleIcon className="w-6 h-6" />
-          <span>MyApp</span>
+          <span>Apakabar</span>
         </Link>
       </div>
 

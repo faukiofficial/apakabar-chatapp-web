@@ -29,7 +29,7 @@ const fetchGoogleUserInfo = async (accessToken) => {
 export const CustomGoogleLoginButton = () => {
   const { socialLogin } = useAuthStore();
 
-  const login = useGoogleLogin({
+  const handleGoogleLogin = useGoogleLogin({
     onSuccess: async (response) => {
       const accessToken = response.access_token;
 
@@ -55,8 +55,8 @@ export const CustomGoogleLoginButton = () => {
 
   return (
     <button
-      onClick={login}
-      className="flex items-center justify-center w-full px-4 py-3 text-sm font-medium bg-base-100 border border-base-300 rounded-lg shadow-sm hover:shadow-md"
+      onClick={handleGoogleLogin}
+      className="flex items-center justify-center w-full px-4 py-3 text-sm font-medium bg-base-100 hover:bg-base-300 border border-base-300 rounded-lg shadow-sm hover:shadow-md"
     >
       <FcGoogle className="w-5 h-5 mr-2" />
       Join with Google

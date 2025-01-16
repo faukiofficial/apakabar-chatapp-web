@@ -1,9 +1,7 @@
 import { useState } from "react";
 import useAuthStore from "../store/useAuthStore";
 import { EyeIcon, EyeOffIcon, Loader } from "lucide-react";
-// import { GoogleLogin } from '@react-oauth/google';
 import toast from "react-hot-toast";
-// import { jwtDecode } from 'jwt-decode';
 import { Link } from "react-router-dom";
 import { CustomGoogleLoginButton } from "../components/googleLogin";
 
@@ -40,29 +38,9 @@ const Register = () => {
     }
   };
 
-  // const handleGoogleSuccess = (credentialResponse) => {
-  //   const {credential} = credentialResponse;
-
-  //   console.log(credentialResponse)
-
-  //   const user = jwtDecode(credential);
-
-  //   const data = {
-  //     name: user.name,
-  //     email: user.email,
-  //     picture: user.picture
-  //   }
-
-  //   socialLogin(data);
-  // };
-
-  // const handleGoogleError = (error) => {
-  //   toast.error(error);
-  // };
-
   return (
     <div className="flex justify-center items-center min-h-screen">
-      <div className="card w-[400px] m-3 shadow-xl bg-base-200">
+      <div className="card w-[500px] m-3 shadow-xl bg-base-200">
         <div className="card-body">
           <h2 className="text-2xl font-bold text-center mb-4">Register</h2>
           <form onSubmit={handleSubmit}>
@@ -136,11 +114,7 @@ const Register = () => {
           <div className="divider">OR</div>
 
           {/* Google Login */}
-          <div className="form-control mt-4">
-            {/* <GoogleLogin
-              onSuccess={handleGoogleSuccess}
-              onError={handleGoogleError}
-            /> */}
+          <div className="form-control">
             <CustomGoogleLoginButton />
           </div>
 
