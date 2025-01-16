@@ -51,7 +51,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto mt-8 px-6 py-10 shadow-md rounded-lg">
+    <div className="max-w-3xl mx-auto mt-8 px-6 py-10 shadow-md rounded-lg bg-base-200">
       <div className="flex flex-col items-center mb-6">
         <div className="relative w-32 h-32">
           <img
@@ -90,9 +90,9 @@ const Profile = () => {
           <input
             type="email"
             value={email}
-            disabled
+            readOnly
             onChange={(e) => setEmail(e.target.value)}
-            className="input input-bordered w-full"
+            className="input input-bordered w-full cursor-not-allowed"
           />
         </div>
       </div>

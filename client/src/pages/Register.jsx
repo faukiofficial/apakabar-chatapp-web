@@ -55,7 +55,7 @@ const Register = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen">
-      <div className="card w-[400px] m-3 shadow-xl">
+      <div className="card w-[400px] m-3 shadow-xl bg-base-200">
         <div className="card-body">
           <h2 className="text-2xl font-bold text-center mb-4">Register</h2>
           <form onSubmit={handleSubmit}>

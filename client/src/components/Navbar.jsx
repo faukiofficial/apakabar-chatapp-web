@@ -1,4 +1,4 @@
-import { Settings, User, LogOut, Home } from "lucide-react";
+import { Settings, User, LogOut, MessageCircleIcon } from "lucide-react";
 import useAuthStore from "../store/useAuthStore";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -15,7 +15,7 @@ const Navbar = () => {
       {/* Logo */}
       <div className="flex-1">
         <Link to="/" className="flex items-center gap-2 text-xl font-bold">
-          <Home className="w-6 h-6" />
+          <MessageCircleIcon className="w-6 h-6" />
           <span>MyApp</span>
         </Link>
       </div>
@@ -24,7 +24,7 @@ const Navbar = () => {
       <div className="flex-none">
         <div className="flex items-center gap-4">
           {/* Settings */}
-          <button className="btn btn-ghost btn-circle" aria-label="Settings">
+          <button className="btn btn-ghost btn-circle" aria-label="Settings" onClick={() => navigate("/setting")}>
             <Settings className="w-5 h-5" />
           </button>
 

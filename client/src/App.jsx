@@ -6,9 +6,12 @@ import Register from "./pages/Register"
 import Login from "./pages/Login"
 import Navbar from "./components/Navbar"
 import Profile from "./pages/Profile"
+import { useThemeStore } from "./store/useThemeStore"
+import SettingPage from "./pages/SettingPage"
 
 function App() {
   const { user, isAuthenticated, checkAuthLoading, checkAuth } = useAuthStore()
+  const { theme } = useThemeStore()
 
   useEffect(() => {
     checkAuth()
@@ -27,7 +30,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div data-theme="light">
+      <div data-theme={theme}>
       <Navbar />
       <Routes>
         <Route path="/" element=<Navigate to="/auth/login" /> />
@@ -36,6 +39,7 @@ function App() {
           <Route path="register" element={<Register />} />
           <Route path="login" element={<Login />} />
         </Route>
+        <Route path="/setting" element={<SettingPage />} />
         <Route path="/message" element={isNotAuthAndNotChecking ? <Navigate to="/auth/login" /> : <h1>Dashboard</h1> } />
         <Route path="/profile" element={isNotAuthAndNotChecking ? <Navigate to="/auth/login" /> : <Profile /> } />
       </Routes>
