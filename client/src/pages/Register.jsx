@@ -1,28 +1,33 @@
-import { useState } from 'react';
-import useAuthStore from '../store/useAuthStore';
-import { EyeIcon, EyeOffIcon, Loader } from 'lucide-react';
-import { GoogleLogin } from '@react-oauth/google';
-import toast from 'react-hot-toast';
-import { jwtDecode } from 'jwt-decode';
-import { Link } from 'react-router-dom';
+import { useState } from "react";
+import useAuthStore from "../store/useAuthStore";
+import { EyeIcon, EyeOffIcon, Loader } from "lucide-react";
+// import { GoogleLogin } from '@react-oauth/google';
+import toast from "react-hot-toast";
+// import { jwtDecode } from 'jwt-decode';
+import { Link } from "react-router-dom";
+import { CustomGoogleLoginButton } from "../components/googleLogin";
 
 const Register = () => {
-  const { register, registerLoading, socialLogin, loginLoading } = useAuthStore();
+  const { register, registerLoading, loginLoading } = useAuthStore();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    password: ""
+    password: "",
   });
 
   const validateForm = () => {
-    return formData.name.length > 0 && formData.email.length > 0 && formData.password.length > 0;
+    return (
+      formData.name.length > 0 &&
+      formData.email.length > 0 &&
+      formData.password.length > 0
+    );
   };
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -35,23 +40,25 @@ const Register = () => {
     }
   };
 
-  const handleGoogleSuccess = (credentialResponse) => {
-    const {credential} = credentialResponse;
+  // const handleGoogleSuccess = (credentialResponse) => {
+  //   const {credential} = credentialResponse;
 
-    const user = jwtDecode(credential);
+  //   console.log(credentialResponse)
 
-    const data = {
-      name: user.name,
-      email: user.email,
-      picture: user.picture
-    }
+  //   const user = jwtDecode(credential);
 
-    socialLogin(data);
-  };
+  //   const data = {
+  //     name: user.name,
+  //     email: user.email,
+  //     picture: user.picture
+  //   }
 
-  const handleGoogleError = (error) => {
-    toast.error(error);
-  };
+  //   socialLogin(data);
+  // };
+
+  // const handleGoogleError = (error) => {
+  //   toast.error(error);
+  // };
 
   return (
     <div className="flex justify-center items-center min-h-screen">
@@ -106,17 +113,22 @@ const Register = () => {
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute top-1/2 right-4 transform -translate-y-1/2"
                 >
-                  {showPassword ? <EyeOffIcon className="w-6 h-6" /> : <EyeIcon className="w-6 h-6" />}
+                  {showPassword ? (
+                    <EyeOffIcon className="w-6 h-6" />
+                  ) : (
+                    <EyeIcon className="w-6 h-6" />
+                  )}
                 </button>
               </div>
             </div>
             {/* Submit Button */}
             <div className="form-control mt-6">
-              <button
-                type="submit"
-                className={`btn btn-primary w-full`}
-              >
-                {registerLoading || loginLoading && <Loader className="animate-spin mr-2" />} Register
+              <button type="submit" className={`btn btn-primary w-full`}>
+                {registerLoading ||
+                  (loginLoading && (
+                    <Loader className="animate-spin mr-2" />
+                  ))}{" "}
+                Register
               </button>
             </div>
           </form>
@@ -125,17 +137,20 @@ const Register = () => {
 
           {/* Google Login */}
           <div className="form-control mt-4">
-            <GoogleLogin
+            {/* <GoogleLogin
               onSuccess={handleGoogleSuccess}
               onError={handleGoogleError}
-              useOneTap
-            />
+            /> */}
+            <CustomGoogleLoginButton />
           </div>
 
           {/* Additional Links */}
           <p className="text-sm text-center mt-4">
             Already have an account?{" "}
-            <Link to="/auth/login" className="text-primary font-semibold hover:underline">
+            <Link
+              to="/auth/login"
+              className="text-primary font-semibold hover:underline"
+            >
               Login
             </Link>
           </p>

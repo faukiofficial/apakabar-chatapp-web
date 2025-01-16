@@ -7,17 +7,12 @@ import { CameraIcon, Loader } from "lucide-react";
 const Profile = () => {
   const { user, updateProfile, isUpdateProfileLoading } = useAuthStore();
 
-  console.log(user);
-
   const [name, setName] = useState(user?.name || "");
   const [email, setEmail] = useState(user?.email || "");
   const [profilePic, setProfilePic] = useState(null);
   const [previewPic, setPreviewPic] = useState(
     user?.profilePic?.url || defaultProfilePic
   );
-
-  console.log(user?.profilePic?.url)
-  console.log(previewPic)
 
   const handleProfilePicChange = (e) => {
     const file = e.target.files?.[0];
@@ -51,7 +46,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto mt-8 px-6 py-10 shadow-md rounded-lg bg-base-200">
+    <div className="max-w-2xl sm:mx-auto mt-8 mx-4 px-6 py-10 shadow-md rounded-lg bg-base-200">
       <div className="flex flex-col items-center mb-6">
         <div className="relative w-32 h-32">
           <img
@@ -111,11 +106,11 @@ const Profile = () => {
       <div className="mt-6 text-sm text-gray-500">
         <p>
           <strong>Member Since:</strong>{" "}
-          {new Date(user?.createdAt).toLocaleDateString()}
+          {new Date(user?.createdAt).toLocaleDateString("en-US")}
         </p>
         <p>
           <strong>Last Updated:</strong>{" "}
-          {new Date(user?.updatedAt).toLocaleDateString()}
+          {new Date(user?.updatedAt).toLocaleDateString("en-US")}
         </p>
       </div>
     </div>

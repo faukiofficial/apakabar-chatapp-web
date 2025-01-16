@@ -1,13 +1,14 @@
 import { useState } from "react";
 import useAuthStore from "../store/useAuthStore";
 import { EyeIcon, EyeOffIcon, Loader } from "lucide-react";
-import { GoogleLogin } from "@react-oauth/google";
+// import { GoogleLogin } from "@react-oauth/google";
 import toast from "react-hot-toast";
-import { jwtDecode } from "jwt-decode";
+// import { jwtDecode } from "jwt-decode";
 import { Link } from "react-router-dom";
+import { CustomGoogleLoginButton } from "../components/googleLogin";
 
 const Login = () => {
-  const { login, loginLoading, socialLogin } = useAuthStore();
+  const { login, loginLoading } = useAuthStore();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
@@ -34,31 +35,29 @@ const Login = () => {
     }
   };
 
-  const handleGoogleSuccess = (credentialResponse) => {
-    const { credential } = credentialResponse;
+  // const handleGoogleSuccess = (credentialResponse) => {
+  //   const { credential } = credentialResponse;
 
-    const user = jwtDecode(credential);
+  //   const user = jwtDecode(credential);
 
-    const data = {
-      name: user.name,
-      email: user.email,
-      picture: user.picture,
-    };
+  //   const data = {
+  //     name: user.name,
+  //     email: user.email,
+  //     picture: user.picture,
+  //   };
 
-    socialLogin(data);
-  };
+  //   socialLogin(data);
+  // };
 
-  const handleGoogleError = () => {
-    toast.error("Google Login failed. Please try again.");
-  };
+  // const handleGoogleError = () => {
+  //   toast.error("Google Login failed. Please try again.");
+  // };
 
   return (
     <div className="flex justify-center items-center min-h-screen">
       <div className="card w-[400px] m-3 shadow-xl bg-base-200">
         <div className="card-body">
-          <h2 className="text-2xl font-bold text-center mb-4">
-            Login
-          </h2>
+          <h2 className="text-2xl font-bold text-center mb-4">Login</h2>
           <form onSubmit={handleSubmit}>
             {/* Email Field */}
             <div className="form-control mb-4">
@@ -103,10 +102,7 @@ const Login = () => {
             </div>
             {/* Submit Button */}
             <div className="form-control mt-6">
-              <button
-                type="submit"
-                className={`btn btn-primary w-full`}
-              >
+              <button type="submit" className={`btn btn-primary w-full`}>
                 {loginLoading && <Loader className="mr-2 animate-spin" />} Login
               </button>
             </div>
@@ -116,11 +112,11 @@ const Login = () => {
 
           {/* Google Login */}
           <div className="form-control mt-4">
-            <GoogleLogin
+            {/* <GoogleLogin
               onSuccess={handleGoogleSuccess}
               onError={handleGoogleError}
-              useOneTap
-            />
+            /> */}
+            <CustomGoogleLoginButton />
           </div>
 
           {/* Additional Links */}

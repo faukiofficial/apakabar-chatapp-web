@@ -18,7 +18,7 @@ const PREVIEW_MESSAGES = [
 const SettingPage = () => {
   const { theme, setTheme } = useThemeStore();
   return (
-    <div className="h-screen container mx-auto px-4 pt-20 max-w-5xl">
+    <div className="h-screen container mx-auto px-4 pt-10 max-w-5xl">
       <div className="space-y-6">
         <div className="flex flex-col gap-1">
           <h2 className="text-lg font-semibold">Theme</h2>
@@ -107,7 +107,6 @@ const SettingPage = () => {
                     <input
                       type="text"
                       className="input input-bordered flex-1 text-sm h-10"
-                      placeholder="Type a message..."
                       value="This is a preview"
                       readOnly
                     />
