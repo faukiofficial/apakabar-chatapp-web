@@ -1,6 +1,6 @@
 import { useState } from "react";
 import useAuthStore from "../store/useAuthStore";
-import { EyeIcon, EyeOffIcon } from "lucide-react";
+import { EyeIcon, EyeOffIcon, Loader } from "lucide-react";
 import { GoogleLogin } from "@react-oauth/google";
 import toast from "react-hot-toast";
 import { jwtDecode } from "jwt-decode";
@@ -53,17 +53,17 @@ const Login = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100 dark:bg-gray-900">
-      <div className="card w-[400px] m-3 bg-white shadow-xl dark:bg-gray-800">
+    <div className="flex justify-center items-center min-h-screen ">
+      <div className="card w-[400px] m-3 shadow-xl ">
         <div className="card-body">
-          <h2 className="text-2xl font-bold text-center mb-4 dark:text-white">
+          <h2 className="text-2xl font-bold text-center mb-4">
             Login
           </h2>
           <form onSubmit={handleSubmit}>
             {/* Email Field */}
             <div className="form-control mb-4">
               <label className="label">
-                <span className="label-text dark:text-gray-300">Email</span>
+                <span className="label-text">Email</span>
               </label>
               <input
                 type="email"
@@ -77,7 +77,7 @@ const Login = () => {
             {/* Password Field */}
             <div className="form-control mb-4">
               <label className="label">
-                <span className="label-text dark:text-gray-300">Password</span>
+                <span className="label-text">Password</span>
               </label>
               <div className="relative">
                 <input
@@ -91,7 +91,7 @@ const Login = () => {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute top-1/2 right-4 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 dark:text-gray-300"
+                  className="absolute top-1/2 right-4 transform -translate-y-1/2"
                 >
                   {showPassword ? (
                     <EyeOffIcon className="w-6 h-6" />
@@ -107,7 +107,7 @@ const Login = () => {
                 type="submit"
                 className={`btn btn-primary w-full`}
               >
-                {loginLoading ? "Logging in..." : "Login"}
+                {loginLoading && <Loader className="mr-2 animate-spin" />} Login
               </button>
             </div>
           </form>
@@ -124,7 +124,7 @@ const Login = () => {
           </div>
 
           {/* Additional Links */}
-          <p className="text-sm text-center mt-4 dark:text-gray-400">
+          <p className="text-sm text-center mt-4">
             Don{"'"}t have an account?{" "}
             <Link
               to="/auth/register"

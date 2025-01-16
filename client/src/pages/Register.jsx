@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import useAuthStore from '../store/useAuthStore';
-import { EyeIcon, EyeOffIcon } from 'lucide-react';
+import { EyeIcon, EyeOffIcon, Loader } from 'lucide-react';
 import { GoogleLogin } from '@react-oauth/google';
 import toast from 'react-hot-toast';
 import { jwtDecode } from 'jwt-decode';
@@ -54,15 +54,15 @@ const Register = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100 dark:bg-gray-900">
-      <div className="card w-[400px] m-3 bg-white shadow-xl dark:bg-gray-800">
+    <div className="flex justify-center items-center min-h-screen">
+      <div className="card w-[400px] m-3 shadow-xl">
         <div className="card-body">
-          <h2 className="text-2xl font-bold text-center mb-4 dark:text-white">Register</h2>
+          <h2 className="text-2xl font-bold text-center mb-4">Register</h2>
           <form onSubmit={handleSubmit}>
             {/* Name Field */}
             <div className="form-control mb-4">
               <label className="label">
-                <span className="label-text dark:text-gray-300">Name</span>
+                <span className="label-text">Name</span>
               </label>
               <input
                 type="text"
@@ -76,7 +76,7 @@ const Register = () => {
             {/* Email Field */}
             <div className="form-control mb-4">
               <label className="label">
-                <span className="label-text dark:text-gray-300">Email</span>
+                <span className="label-text">Email</span>
               </label>
               <input
                 type="email"
@@ -90,7 +90,7 @@ const Register = () => {
             {/* Password Field */}
             <div className="form-control mb-4">
               <label className="label">
-                <span className="label-text dark:text-gray-300">Password</span>
+                <span className="label-text">Password</span>
               </label>
               <div className="relative">
                 <input
@@ -104,7 +104,7 @@ const Register = () => {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute top-1/2 right-4 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 dark:text-gray-300"
+                  className="absolute top-1/2 right-4 transform -translate-y-1/2"
                 >
                   {showPassword ? <EyeOffIcon className="w-6 h-6" /> : <EyeIcon className="w-6 h-6" />}
                 </button>
@@ -116,7 +116,7 @@ const Register = () => {
                 type="submit"
                 className={`btn btn-primary w-full`}
               >
-                {registerLoading || loginLoading ? "Registering..." : "Register"}
+                {registerLoading || loginLoading && <Loader className="animate-spin mr-2" />} Register
               </button>
             </div>
           </form>
@@ -133,7 +133,7 @@ const Register = () => {
           </div>
 
           {/* Additional Links */}
-          <p className="text-sm text-center mt-4 dark:text-gray-400">
+          <p className="text-sm text-center mt-4">
             Already have an account?{" "}
             <Link to="/auth/login" className="text-primary font-semibold hover:underline">
               Login

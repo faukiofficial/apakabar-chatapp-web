@@ -133,6 +133,7 @@ export const socialLogin = async (req, res) => {
 };
 
 export const logout = async (req, res) => {
+  console.log("logout");
   try {
     clearCookie(res, "token");
     clearCookie(res, "refreshToken");

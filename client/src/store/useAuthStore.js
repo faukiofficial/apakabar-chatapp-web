@@ -9,6 +9,7 @@ const useAuthStore = create((set) => ({
     registerLoading: false,
     loginLoading: false,
     logoutLoading: false,
+    isUpdateProfileLoading: false,
 
     checkAuth: async() => {
         set({ checkAuthLoading: true });
@@ -65,12 +66,34 @@ const useAuthStore = create((set) => ({
     logout: async () => {
         set({ logoutLoading: true });
         try {
-            const response = await axiosInstance.get('/auth/logout');
+            const response = await axiosInstance.post('/auth/logout');
             toast.success(response.data.message);
             set({ user: null, isAuthenticated: false });
         } catch (error) {
             toast.error(error.response.data.message);
         }
+    },
+
+    updateProfile: async (data) => {
+        set({ isUpdateProfileLoading: true });
+        try {
+            const formData = new FormData();
+            formData.append('name', data.name);
+            formData.append('email', data.email);
+            if (data.profilePic) {
+                formData.append('profilePic', data.profilePic);
+            }
+            const response = await axiosInstance.put('/user', formData);
+            toast.success(response.data.message);
+            set({ user: response.data.user });
+            return true;
+        } catch (error) {
+            toast.error(error.response.data.message);
+        } finally {
+            set({ isUpdateProfileLoading: false });
+        }
+
+        return false;
     }
 }));
 
