@@ -6,7 +6,7 @@ import MessageInput from "./MessageInput";
 import useAuthStore from "../store/useAuthStore";
 import { formatMessageTime } from "../lib/utils";
 import MessageSkeleton from "./skeletons/MessageSkeleton ";
-import { X } from "lucide-react";
+import ImageModal from "./ImageModal";
 
 const ChatContainer = () => {
   const {
@@ -27,6 +27,7 @@ const ChatContainer = () => {
   };
 
   console.log(messages);
+  console.log("user", user);
 
   console.log(selectedUser)
 
@@ -58,18 +59,29 @@ const ChatContainer = () => {
         {messages.map((message) => (
           <div
             key={message._id}
-            className={`chat ${message.senderId === user._id ? "chat-end" : "chat-start"}`}
+            className={`chat ${message.sender._id === user._id ? "chat-end" : "chat-start"}`}
             ref={messageEndRef}
           >
             <div className=" chat-image avatar">
-              <div className="size-10 rounded-full border">
+              <div className="size-10 rounded-full border cursor-pointer">
                 <img
                   src={
-                    message.senderId === user._id
+                    message.sender._id === user._id
                       ? user.profilePic.url || "/avatar.png"
                       : selectedUser.profilePic.url || "/avatar.png"
                   }
                   alt="profile pic"
+                  onClick={() => {
+                    if(message.sender._id === user._id){
+                      if(message.sender.profilePic.url){
+                        openImageModal(message.sender.profilePic.url)
+                      }
+                    } else {
+                      if(message.receiver.profilePic.url){
+                        openImageModal(message.receiver.profilePic.url)
+                      }
+                    }
+                  }}
                 />
               </div>
             </div>
@@ -96,17 +108,10 @@ const ChatContainer = () => {
       <MessageInput />
 
       {imageModalOpen && (
-        <div className="fixed inset-0 bg-base-100/50 flex items-center justify-center z-50">
-          <img
-            src={imageModalSrc}
-            alt="Attachment"
-            className="max-w-full max-h-[90vh]"
-          />
-          <X
-            onClick={() => setImageModalOpen(false)}
-            className="absolute top-4 right-4 text-red-500 cursor-pointer"
-          />
-        </div>
+        <ImageModal
+          imageModalSrc={imageModalSrc}
+          setImageModalOpen={setImageModalOpen}
+        />
       )}
     </div>
   );

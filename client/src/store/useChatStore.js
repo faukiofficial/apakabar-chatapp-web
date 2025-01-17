@@ -47,7 +47,6 @@ const useChatStore = create((set, get) => ({
             }
             const response = await axiosInstance.post(`/message/${selectedUser._id}`, formData);
             set({ sendMessageLoading: false, messages: [...messages, response.data.newMessage] });
-            toast.success(response.data.message);
         } catch (error) {
             toast.error(error.response.data.message);
             set({ sendMessageLoading: false });

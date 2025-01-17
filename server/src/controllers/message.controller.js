@@ -5,7 +5,7 @@ import { deleteImage, uploadImage } from "../lib/cloudinary.js";
 export const getUsersForSidebar = async (req, res) => {
   try {
     const users = await User.find({ _id: { $ne: req.user._id } }).select(
-      "name profilePic.url"
+      "name profilePic.url email"
     );
     res
       .status(200)
@@ -44,8 +44,6 @@ export const sendMessage = async (req, res) => {
   try {
     const { text } = req.body;
     const receiverId = req.params.id;
-
-    console.log(req.file);
 
     let imageData;
     if (req.file) {
