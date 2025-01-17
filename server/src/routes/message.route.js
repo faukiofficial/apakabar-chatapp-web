@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.get("/users-for-sidebar", checkAuthAndRefreshToken, getUsersForSidebar);
 router.get("/:id", checkAuthAndRefreshToken, getMessages);
-router.post("/", checkAuthAndRefreshToken, upload.single("image"), sendMessage);
+router.post("/:id", checkAuthAndRefreshToken, upload.single("image"), sendMessage);
 router.put("/:id", checkAuthAndRefreshToken, upload.single("image"), updateMessage);
 router.delete("/:id", checkAuthAndRefreshToken, deleteMessage);
 

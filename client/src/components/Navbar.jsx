@@ -1,4 +1,10 @@
-import { Settings, User, LogOut, MessageCircleIcon, LogIn } from "lucide-react";
+import {
+  Settings,
+  User,
+  LogOut,
+  LogIn,
+  MessageSquare,
+} from "lucide-react";
 import useAuthStore from "../store/useAuthStore";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -11,10 +17,10 @@ const Navbar = () => {
     logout();
   };
   return (
-    <div className="navbar bg-base-100 shadow-md px-4">
+    <div className="navbar bg-base-100 shadow-md px-4 fixed top-0 z-50">
       <div className="flex-1">
         <Link to="/" className="flex items-center gap-2 text-xl font-bold">
-          <MessageCircleIcon className="w-6 h-6" />
+          <MessageSquare className="w-6 h-6 text-primary " />
           <span>Apakabar</span>
         </Link>
       </div>

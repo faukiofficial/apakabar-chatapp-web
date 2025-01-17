@@ -42,7 +42,8 @@ export const getMessages = async (req, res) => {
 
 export const sendMessage = async (req, res) => {
   try {
-    const { receiverId, message } = req.body;
+    const { text } = req.body;
+    const receiverId = req.params.id;
 
     console.log(req.file);
 
@@ -58,7 +59,7 @@ export const sendMessage = async (req, res) => {
     const result = await Message.create({
       sender: req.user._id,
       receiver: receiverId,
-      text: message,
+      text,
       image: imageData,
     })
 

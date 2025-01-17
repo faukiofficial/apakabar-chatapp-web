@@ -8,6 +8,7 @@ import Navbar from "./components/Navbar"
 import Profile from "./pages/Profile"
 import { useThemeStore } from "./store/useThemeStore"
 import SettingPage from "./pages/SettingPage"
+import Home from "./pages/Home"
 
 function App() {
   const { user, isAuthenticated, checkAuthLoading, checkAuth } = useAuthStore()
@@ -30,7 +31,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div data-theme={theme} className="min-h-screen">
+      <div data-theme={theme} className="min-h-[calc(100vh-6rem)]">
       <Navbar />
       <Routes>
         <Route path="/" element=<Navigate to="/auth/login" /> />
@@ -40,7 +41,7 @@ function App() {
           <Route path="login" element={<Login />} />
         </Route>
         <Route path="/setting" element={<SettingPage />} />
-        <Route path="/message" element={isNotAuthAndNotChecking ? <Navigate to="/auth/login" /> : <h1>Dashboard</h1> } />
+        <Route path="/message" element={isNotAuthAndNotChecking ? <Navigate to="/auth/login" /> : <Home /> } />
         <Route path="/profile" element={isNotAuthAndNotChecking ? <Navigate to="/auth/login" /> : <Profile /> } />
       </Routes>
       </div>
