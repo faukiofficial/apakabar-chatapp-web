@@ -18,6 +18,10 @@ function App() {
     checkAuth()
   }, [checkAuth])
 
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]); 
+
   if (checkAuthLoading && !user) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -31,7 +35,6 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div data-theme={theme} className="min-h-[calc(100vh-6rem)]">
       <Navbar />
       <Routes>
         <Route path="/" element=<Navigate to="/auth/login" /> />
@@ -44,7 +47,6 @@ function App() {
         <Route path="/message" element={isNotAuthAndNotChecking ? <Navigate to="/auth/login" /> : <Home /> } />
         <Route path="/profile" element={isNotAuthAndNotChecking ? <Navigate to="/auth/login" /> : <Profile /> } />
       </Routes>
-      </div>
     </BrowserRouter>
   )
 }
