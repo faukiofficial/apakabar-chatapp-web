@@ -1,6 +1,7 @@
 import User from "../models/user.model.js";
 import Message from "../models/message.model.js";
 import { deleteImage, uploadImage } from "../lib/cloudinary.js";
+import { getReceiverSocketId, io } from "../lib/socketio.js";
 
 export const getUsersForSidebar = async (req, res) => {
   try {
@@ -65,6 +66,12 @@ export const sendMessage = async (req, res) => {
       .populate("sender", "name profilePic.url")
       .populate("receiver", "name profilePic.url");
 
+    const receiverSocketId = getReceiverSocketId(receiverId);
+
+    if (receiverSocketId) {
+      io.to(receiverSocketId).emit("newMessage", newMessage);
+    }
+
     res.status(200).json({
       success: true,
       message: "Message sent successfully",
@@ -78,8 +85,8 @@ export const sendMessage = async (req, res) => {
 
 export const updateMessage = async (req, res) => {
   try {
-    const messageId = req.params.id;
-    const { message } = req.body;
+    const receiverId = req.params.id;
+    const { text, messageId } = req.body;
 
     const messageToUpdate = await Message.findById(messageId);
 
@@ -99,11 +106,19 @@ export const updateMessage = async (req, res) => {
 
     const updatedMessage = await Message.findByIdAndUpdate(
       messageId,
-      { text: message, image: imageData, isUpdated: true },
+      { text: text, image: imageData, isUpdated: true },
       { new: true, runValidators: true }
     )
       .populate("sender", "name profilePic.url")
       .populate("receiver", "name profilePic.url");
+
+      const receiverSocketId = getReceiverSocketId(receiverId);
+      console.log("receiverSocketId atas", receiverSocketId);
+
+      if (receiverSocketId) {
+        console.log("receiverSocketId", receiverSocketId);
+        io.to(receiverSocketId).emit("updatedMessage", updatedMessage);
+      }
 
     res.status(200).json({
       success: true,
@@ -120,7 +135,10 @@ export const updateMessage = async (req, res) => {
 
 export const deleteMessage = async (req, res) => {
   try {
-    const messageId = req.params.id;
+    const messageId = req.params.messageId;
+    const receiverId = req.params.receiverId;
+
+    console.log("receiverId", receiverId);
 
     const message = await Message.findById(messageId);
 
@@ -128,7 +146,15 @@ export const deleteMessage = async (req, res) => {
       await deleteImage(message.image.public_id);
     }
 
-    await Message.findByIdAndDelete(messageId);
+    const deletedMessage =await Message.findByIdAndDelete(messageId);
+
+    const receiverSocketId = getReceiverSocketId(receiverId);
+
+    console.log("receiverSocketId", receiverSocketId);
+
+    if (receiverSocketId) {
+      io.to(receiverSocketId).emit("deletedMessage", deletedMessage);
+    }
 
     res
       .status(200)

@@ -7,33 +7,58 @@ import useAuthStore from "../store/useAuthStore";
 import { formatMessageTime } from "../lib/utils";
 import MessageSkeleton from "./skeletons/MessageSkeleton ";
 import ImageModal from "./ImageModal";
+import EditMessageModal from "./EditMessageModal";
 
 const ChatContainer = () => {
   const {
     messages,
     getMessages,
     isMessagesLoading,
+    subscribeToMessages,
+    unsubscribeFromMessages,
     selectedUser,
+    deleteMessage,
   } = useChatStore();
   const { user } = useAuthStore();
   const messageEndRef = useRef(null);
 
   const [imageModalOpen, setImageModalOpen] = useState(false);
   const [imageModalSrc, setImageModalSrc] = useState("");
+  const [openEditModal, setOpenEditModal] = useState(false);
+  const [messageToEdit, setMessageToEdit] = useState(null);
+
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [messageToDelete, setMessageToDelete] = useState(null);
+
+  const handleClickDelete = (message) => {
+    setMessageToDelete(message);
+    setOpenDeleteModal(true);
+  };
+
+  const handleDeleteMessage = async () => {
+    await deleteMessage(messageToDelete._id);
+    setOpenDeleteModal(false);
+  }
 
   const openImageModal = (src) => {
     setImageModalSrc(src);
     setImageModalOpen(true);
   };
 
-  console.log(messages);
-  console.log("user", user);
-
-  console.log(selectedUser)
-
   useEffect(() => {
     getMessages(selectedUser._id);
-  }, [selectedUser._id, getMessages]);
+
+    subscribeToMessages();
+
+    return () => {
+      unsubscribeFromMessages();
+    };
+  }, [
+    selectedUser._id,
+    getMessages,
+    subscribeToMessages,
+    unsubscribeFromMessages,
+  ]);
 
   useEffect(() => {
     if (messageEndRef.current && messages) {
@@ -59,7 +84,9 @@ const ChatContainer = () => {
         {messages.map((message) => (
           <div
             key={message._id}
-            className={`chat ${message.sender._id === user._id ? "chat-end" : "chat-start"}`}
+            className={`chat ${
+              message.sender._id === user._id ? "chat-end" : "chat-start"
+            }`}
             ref={messageEndRef}
           >
             <div className=" chat-image avatar">
@@ -72,13 +99,13 @@ const ChatContainer = () => {
                   }
                   alt="profile pic"
                   onClick={() => {
-                    if(message.sender._id === user._id){
-                      if(message.sender.profilePic.url){
-                        openImageModal(message.sender.profilePic.url)
+                    if (message.sender._id === user._id) {
+                      if (message.sender.profilePic.url) {
+                        openImageModal(message.sender.profilePic.url);
                       }
                     } else {
-                      if(message.receiver.profilePic.url){
-                        openImageModal(message.receiver.profilePic.url)
+                      if (message.receiver.profilePic.url) {
+                        openImageModal(message.receiver.profilePic.url);
                       }
                     }
                   }}
@@ -91,6 +118,16 @@ const ChatContainer = () => {
               </time>
             </div>
             <div className="chat-bubble flex flex-col">
+              {message.sender._id === user._id && (
+                <div className="flex gap-2 items-center mb-1">
+                <span className="text-xs opacity-50 cursor-pointer hover:opacity-100" onClick={() => {
+                  setOpenEditModal(true);
+                  setMessageToEdit(message);
+                }}>edit</span>
+                <span className="text-[10px] opacity-50">|</span>
+                <span className="text-xs opacity-50 cursor-pointer hover:opacity-100" onClick={() => handleClickDelete(message)}>delete</span>
+                </div>
+              )}
               {message.image?.url && (
                 <img
                   src={message.image.url}
@@ -99,7 +136,15 @@ const ChatContainer = () => {
                   onClick={() => openImageModal(message.image.url)}
                 />
               )}
-              {message.text && <p className="whitespace-pre-wrap">{message.text}</p>}
+              {message.text && (
+                <p className="whitespace-pre-wrap">{message.text}</p>
+              )}
+
+              {message.isUpdated && (
+                <p className="text-[10px] opacity-20 mt-1 text-end">
+                  (edited)
+                </p>
+              )}
             </div>
           </div>
         ))}
@@ -112,6 +157,28 @@ const ChatContainer = () => {
           imageModalSrc={imageModalSrc}
           setImageModalOpen={setImageModalOpen}
         />
+      )}
+
+      <EditMessageModal openEditModal={openEditModal} setOpenEditModal={setOpenEditModal} message={messageToEdit} />
+
+      {openDeleteModal && (
+        <div className="modal modal-open">
+          <div className="modal-box">
+            <h3 className="font-bold text-lg">Delete message</h3>
+            <p className="py-4">Are you sure you want to delete this message?</p>
+            <div className="modal-action">
+              <button className="btn" onClick={() => setOpenDeleteModal(false)}>
+                Cancel
+              </button>
+              <button
+                className="btn btn-error"
+                onClick={handleDeleteMessage}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
