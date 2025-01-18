@@ -76,8 +76,6 @@ const ChatContainer = () => {
     );
   }
 
-  console.log("messages", messages);
-
   return (
     <div className="flex-1 flex flex-col overflow-auto">
       <ChatHeader />
