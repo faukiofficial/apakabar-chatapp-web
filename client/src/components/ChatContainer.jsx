@@ -93,13 +93,13 @@ const ChatContainer = () => {
               <div className="size-8 lg:size-10 rounded-full border cursor-pointer">
                 <img
                   src={
-                    message.sender._id === user._id
-                      ? user.profilePic.url || "/avatar.png"
-                      : selectedUser.profilePic.url || "/avatar.png"
+                    message?.sender._id === user._id
+                      ? user?.profilePic?.url || "/avatar.png"
+                      : selectedUser?.profilePic?.url || "/avatar.png"
                   }
                   alt="profile pic"
                   onClick={() => {
-                    if (message.sender.profilePic.url) {
+                    if (message.sender.profilePic?.url) {
                         openImageModal(message.sender.profilePic.url);
                       
                     }
