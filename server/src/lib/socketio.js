@@ -11,7 +11,8 @@ const io = new Server(server, {
         origin: "https://apakabar.vercel.app",
         methods: ["GET", "POST", "PUT", "DELETE"],
         allowedHeaders: ["Content-Type", "Authorization"],
-        credentials: true
+        credentials: true,
+        transports: ["websocket", "polling"],
     }
 });
 
