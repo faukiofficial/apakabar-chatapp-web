@@ -32,24 +32,17 @@ app.get("/", (req, res) => {
 
 const API_V1 = "/api/v1";
 
-app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-    res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-    next();
-});
-
 app.use(`${API_V1}/auth`, authRouter);
 app.use(`${API_V1}/user`, userRouter);
 app.use(`${API_V1}/message`, messageRouter);
 
-// if(process.env.NODE_ENV === "production") {
-//     app.use(express.static(path.join(__dirname, "../client/dist")));
+if(process.env.NODE_ENV === "production") {
+    app.use(express.static(path.join(__dirname, "../client/dist")));
 
-//     app.get("*", (req, res) => {
-//         res.sendFile(path.join(__dirname, "../client", "dist", "index.html"));
-//     });
-// }
+    app.get("*", (req, res) => {
+        res.sendFile(path.join(__dirname, "../client/dist", "index.html"));
+    });
+}
 
 const port = process.env.PORT || 3000;
 
