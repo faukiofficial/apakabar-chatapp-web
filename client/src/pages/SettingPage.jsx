@@ -1,6 +1,8 @@
+import { IoArrowBackOutline } from "react-icons/io5";
 import { THEMES } from "../constans";
 import { useThemeStore } from "../store/useThemeStore";
 import { Send } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const PREVIEW_MESSAGES = [
   {
@@ -16,10 +18,18 @@ const PREVIEW_MESSAGES = [
 ];
 
 const SettingPage = () => {
+  const navigate = useNavigate();
   const { theme, setTheme } = useThemeStore();
   return (
-    <div className="h-screen container mt-24 mx-auto px-4 max-w-5xl">
-      <div className="space-y-6">
+    <div className="h-screen container mt-[80px] mx-auto px-4 max-w-5xl relative">
+      <button
+        className="btn btn-ghost btn-circle absolute top-4 left-4"
+        aria-label="Logout"
+        onClick={() => navigate("/")}
+      >
+        <IoArrowBackOutline className="w-5 h-5" />
+      </button>
+      <div className="space-y-6 pt-[80px]">
         <div className="flex flex-col gap-1">
           <h2 className="text-lg font-semibold">Theme</h2>
           <p className="text-sm text-base-content/70">
@@ -79,19 +89,29 @@ const SettingPage = () => {
                   {PREVIEW_MESSAGES.map((message) => (
                     <div
                       key={message.id}
-                      className={`flex ${message.isSent ? "justify-end" : "justify-start"}`}
+                      className={`flex ${
+                        message.isSent ? "justify-end" : "justify-start"
+                      }`}
                     >
                       <div
                         className={`
                           max-w-[80%] rounded-xl p-3 shadow-sm
-                          ${message.isSent ? "bg-primary text-primary-content" : "bg-base-200"}
+                          ${
+                            message.isSent
+                              ? "bg-primary text-primary-content"
+                              : "bg-base-200"
+                          }
                         `}
                       >
                         <p className="text-sm">{message.content}</p>
                         <p
                           className={`
                             text-[10px] mt-1.5
-                            ${message.isSent ? "text-primary-content/70" : "text-base-content/70"}
+                            ${
+                              message.isSent
+                                ? "text-primary-content/70"
+                                : "text-base-content/70"
+                            }
                           `}
                         >
                           12:00 PM

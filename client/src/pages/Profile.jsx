@@ -3,9 +3,13 @@ import useAuthStore from "../store/useAuthStore";
 import defaultProfilePic from "/avatar.png";
 import toast from "react-hot-toast";
 import { CameraIcon, Loader } from "lucide-react";
+import { IoArrowBackOutline } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const { user, updateProfile, isUpdateProfileLoading } = useAuthStore();
+
+  const navigate = useNavigate();
 
   const [name, setName] = useState(user?.name || "");
   const [email, setEmail] = useState(user?.email || "");
@@ -46,7 +50,14 @@ const Profile = () => {
   };
 
   return (
-    <div className="max-w-2xl sm:mx-auto mt-24 mx-4 px-6 py-10 shadow-md rounded-lg bg-base-200">
+    <div className="max-w-2xl sm:mx-auto mt-24 mx-4 px-6 py-10 shadow-md rounded-lg bg-base-200 relative">
+        <button
+          className="btn btn-ghost btn-circle absolute top-4 left-4"
+          aria-label="Logout"
+          onClick={() => navigate("/")}
+        >
+          <IoArrowBackOutline className="w-5 h-5" />
+        </button>
       <div className="flex flex-col items-center mb-6">
         <div className="relative w-32 h-32">
           <img
