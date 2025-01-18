@@ -113,7 +113,6 @@ export const updateMessage = async (req, res) => {
       .populate("receiver", "name profilePic.url");
 
       const receiverSocketId = getReceiverSocketId(receiverId);
-      console.log("receiverSocketId atas", receiverSocketId);
 
       if (receiverSocketId) {
         console.log("receiverSocketId", receiverSocketId);

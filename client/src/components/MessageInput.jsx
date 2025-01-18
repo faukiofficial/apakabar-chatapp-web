@@ -7,7 +7,6 @@ const MessageInput = () => {
   const [text, setText] = useState("");
   const [imagePreview, setImagePreview] = useState(null);
   const [imageToSend, setImageToSend] = useState(null);
-  const textareaRef = useRef(null);
   const fileInputRef = useRef(null);
   const { sendMessage } = useChatStore();
 
@@ -44,21 +43,8 @@ const MessageInput = () => {
       setImageToSend(null);
       setImagePreview(null);
       if (fileInputRef.current) fileInputRef.current.value = "";
-      if (textareaRef.current) {
-        textareaRef.current.style.height = "50px";
-      }
     } catch (error) {
       console.error("Failed to send message:", error);
-    }
-  };
-
-  const adjustTextareaHeight = () => {
-    if (textareaRef.current) {
-      textareaRef.current.style.height = "50px";
-      textareaRef.current.style.height = `${Math.min(
-        textareaRef.current.scrollHeight,
-        200
-      )}px`;
     }
   };
 
@@ -87,13 +73,10 @@ const MessageInput = () => {
       <form onSubmit={handleSendMessage} className="flex items-center gap-2">
         <div className="flex-1 flex gap-2">
           <textarea
-            ref={textareaRef}
-            type="text"
-            className="w-full input input-bordered rounded-lg input-sm sm:input-md max-h-[200px] py-2"
-            placeholder="Type a message..."
+            className="textarea textarea-bordered w-full h-[110px] resize-none"
+            placeholder="Type your message..."
             value={text}
             onChange={(e) => setText(e.target.value)}
-            onInput={adjustTextareaHeight}
           />
           <input
             type="file"
@@ -103,22 +86,24 @@ const MessageInput = () => {
             onChange={handleImageChange}
           />
 
-          <button
-            type="button"
-            className={`btn btn-circle ${
-              imagePreview ? "text-emerald-500" : "text-zinc-400"
-            }`}
-            onClick={() => fileInputRef.current?.click()}
-          >
-            <Image size={20} />
-          </button>
-          <button
-            type="submit"
-            className="btn btn-circle bg-primary text-white"
-            disabled={!text.trim() && !imagePreview}
-          >
-            <Send size={20} />
-          </button>
+          <div className="flex flex-col items-center justify-center gap-2">
+            <button
+              type="button"
+              className={`btn btn-circle ${
+                imagePreview ? "text-emerald-500" : "text-zinc-400"
+              }`}
+              onClick={() => fileInputRef.current?.click()}
+            >
+              <Image  className="w-5 h-5" />
+            </button>
+            <button
+              type="submit"
+              className="btn btn-circle bg-primary text-white"
+              disabled={!text.trim() && !imagePreview}
+            >
+              <Send  className="w-5 h-5" />
+            </button>
+          </div>
         </div>
       </form>
     </div>

@@ -66,7 +66,7 @@ const EditMessageModal = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-base-200 p-6 rounded-lg w-full max-w-md shadow-lg">
+      <div className="bg-base-200 p-4 rounded-lg w-full max-w-md shadow-lg mx-2">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-medium">Edit Message</h3>
           <button
