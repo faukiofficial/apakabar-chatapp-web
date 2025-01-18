@@ -106,7 +106,6 @@ const useAuthStore = create((set, get) => ({
 
     connectSocket: () => {
         const { user } = get();
-        console.log(import.meta.env.VITE_SERVER_URL);
         if (!user || get().socket?.connected) return;
         const socket = io(import.meta.env.VITE_SERVER_URL, {
             query: {

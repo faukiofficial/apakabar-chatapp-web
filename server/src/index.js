@@ -32,6 +32,13 @@ app.get("/", (req, res) => {
 
 const API_V1 = "/api/v1";
 
+app.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    next();
+});
+
 app.use(`${API_V1}/auth`, authRouter);
 app.use(`${API_V1}/user`, userRouter);
 app.use(`${API_V1}/message`, messageRouter);
