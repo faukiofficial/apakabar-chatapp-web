@@ -90,7 +90,7 @@ const ChatContainer = () => {
             ref={messageEndRef}
           >
             <div className=" chat-image avatar">
-              <div className="size-10 rounded-full border cursor-pointer">
+              <div className="size-8 lg:size-10 rounded-full border cursor-pointer">
                 <img
                   src={
                     message.sender._id === user._id
@@ -132,7 +132,7 @@ const ChatContainer = () => {
                 />
               )}
               {message.text && (
-                <p className="whitespace-pre-wrap">{message.text}</p>
+                <p className="whitespace-pre-wrap text-sm md:text-base">{message.text}</p>
               )}
 
               {message.isUpdated && (
