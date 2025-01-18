@@ -112,7 +112,7 @@ const ChatContainer = () => {
                 {formatMessageTime(message.createdAt)}
               </time>
             </div>
-            <div className="chat-bubble flex flex-col">
+            <div className={`chat-bubble flex flex-col ${message.sender._id === user._id ? "bg-primary/40 text-base-content" : ""}`}>
               {message.sender._id === user._id && (
                 <div className="flex gap-2 items-center mb-1">
                 <span className="text-xs opacity-50 cursor-pointer hover:opacity-100" onClick={() => {
