@@ -76,6 +76,8 @@ const ChatContainer = () => {
     );
   }
 
+  console.log("messages", messages);
+
   return (
     <div className="flex-1 flex flex-col overflow-auto">
       <ChatHeader />
@@ -99,14 +101,9 @@ const ChatContainer = () => {
                   }
                   alt="profile pic"
                   onClick={() => {
-                    if (message.sender._id === user._id) {
-                      if (message.sender.profilePic.url) {
+                    if (message.sender.profilePic.url) {
                         openImageModal(message.sender.profilePic.url);
-                      }
-                    } else {
-                      if (message.receiver.profilePic.url) {
-                        openImageModal(message.receiver.profilePic.url);
-                      }
+                      
                     }
                   }}
                 />
