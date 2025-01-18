@@ -8,7 +8,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: "https://apakabar.vercel.app",
+        origin: "*",
         methods: ["GET", "POST", "PUT", "DELETE"],
         allowedHeaders: ["Content-Type", "Authorization"],
         credentials: true,
@@ -16,11 +16,12 @@ const io = new Server(server, {
     }
 });
 
+const userSockerMap = {};
+
 export function getReceiverSocketId(userId) {
     return userSockerMap[userId];
 }
 
-const userSockerMap = {};
 
 io.on("connection", (socket) => {
     console.log(`User Connected: ${socket.id}`);
