@@ -24,6 +24,7 @@ const userSockerMap = {};
 
 io.on("connection", (socket) => {
     console.log(`User Connected: ${socket.id}`);
+    console.log("Query params:", socket.handshake.query);
 
     const userId = socket.handshake.query.userId;
     if (userId) {
