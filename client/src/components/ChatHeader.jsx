@@ -63,6 +63,7 @@ const ChatHeader = () => {
       {imageModalOpen && (
         <ImageModal
           imageModalSrc={imageModalSrc}
+          setImageModalSrc={setImageModalSrc}
           setImageModalOpen={setImageModalOpen}
         />
       )}

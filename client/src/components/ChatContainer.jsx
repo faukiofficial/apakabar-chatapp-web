@@ -23,7 +23,7 @@ const ChatContainer = () => {
   const messageEndRef = useRef(null);
 
   const [imageModalOpen, setImageModalOpen] = useState(false);
-  const [imageModalSrc, setImageModalSrc] = useState("");
+  const [imageModalSrc, setImageModalSrc] = useState(null);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [messageToEdit, setMessageToEdit] = useState(null);
 
@@ -155,6 +155,7 @@ const ChatContainer = () => {
       {imageModalOpen && (
         <ImageModal
           imageModalSrc={imageModalSrc}
+          setImageModalSrc={setImageModalSrc}
           setImageModalOpen={setImageModalOpen}
         />
       )}
