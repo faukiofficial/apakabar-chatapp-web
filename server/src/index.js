@@ -3,13 +3,13 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import morgan from "morgan";
-// import path from "path";
+import path from "path";
 import connectDB from "./lib/database.js";
 
 dotenv.config();
 connectDB();
 
-// const __dirname = path.resolve();
+const __dirname = path.resolve();
 
 import authRouter from "./routes/auth.route.js";
 import userRouter from "./routes/user.route.js";
