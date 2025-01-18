@@ -14,7 +14,7 @@ connectDB();
 import authRouter from "./routes/auth.route.js";
 import userRouter from "./routes/user.route.js";
 import messageRouter from "./routes/message.route.js";
-import { app, server } from "./lib/socketio.js";
+import { app, server } from "./api/socketio.js";
 
 app.use(express.json());
 app.use(cookieParser());
