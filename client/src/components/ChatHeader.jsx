@@ -25,13 +25,13 @@ const ChatHeader = () => {
             <div
               className="size-10 rounded-full relative cursor-pointer"
               onClick={() => {
-                if (selectedUser.profilePic.url) {
-                  openImageModal(selectedUser.profilePic.url);
+                if (selectedUser.profilePic?.url) {
+                  openImageModal(selectedUser.profilePic?.url);
                 }
               }}
             >
               <img
-                src={selectedUser.profilePic.url || defaultImage}
+                src={selectedUser.profilePic?.url || defaultImage}
                 alt={selectedUser.name}
               />
             </div>
